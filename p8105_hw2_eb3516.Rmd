@@ -1,0 +1,15 @@
+---
+title: "p8105_hw2_eb3516"
+author: "Liz Bekerman"
+output: github_document
+date: "2023-10-02"
+---
+
+Setup code to load libraries & open dataset.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
