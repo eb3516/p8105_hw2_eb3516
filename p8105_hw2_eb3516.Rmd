@@ -187,16 +187,26 @@ There were `r nrow(baseline_df)` participants recruited. We now omit those who d
 ```
 
 Of those recruited, `r nrow(baseline_df)` developed MCI.
+The average baseline age is 69.81.
+0.65 of the women in the study are APOE4 carriers.
 
+We will do the same thing with the `amyloid` data.
 
+```{r import_clean_amyloid}
+  amyloid_df=read.csv("./data_mci/MCI_amyloid.csv", skip=1)|>
+    janitor::clean_names()
+```
 
-#What is the average baseline age?
-#What proportion of women in the study are APOE4 carriers?
+The total observations in the `amyloid` dataset is `r nrow(amyloid_df)`. We now ommit data with missing values.
 
-#Import, clean & tidy dataset of longitudinally observed biomarker values
-#Comment on the steps on the import process & features of the datset
+``` {r clean_amyloid}
+  amyloid_df= amyloid_df |>
+  drop_na() |>
+  rename(ID=study_id)
+```
 
-#Check whether some participants appear in only baseline or amyloid datsets and comment on findings
+There are now `r nrow(amyloid_df)` observations.
+
 #Combine demos & biomarker datsets so only participnats who appear in both are retained
 #Briefly describe the resulting dataset
 #Export results as a CSV to data directory
