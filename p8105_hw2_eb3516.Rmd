@@ -141,12 +141,9 @@ Now we merge the three datasets.
   combined_wheels_df=bind_rows(mrtrash_df, proftrash_df, gwynndatrash_df)
 ```
 
-#Write an in-line paragraph about the data. Note # observations in resulting dataset, give examples of key variables. For available data, what was the total weight of trash collected by Prof Trash Wheel? What was the total number of cig butts collected by Gwynnda in July 2021?
+Let's talk about the Trash Wheel datasets of the 3 combined trash wheels. The `combined_wheels` data now has `r nrow(combined_wheels_df)` observations and `r ncol(combined_wheels_df)` variable that tells us about the the amount and type of trash collected by the Trash Wheels. It consists of variables `dumpster`, `date`, `weight_tons`, and `volume` and also tells us how many houses are powered based on the created `homes_powered` variable. There is also a more specific breakdown of the types of trash collected, including `plastic`, `polystyrene`, and `cigarette_butts`.
 
-
-
-
-
+Based on the available data, we can see that Professor Trash Wheel collected a total of `r sum(pull(proftrash_df, weight_tons))`. We can also see that Gwynnda collected a total of `r sum(pull(filter(gwynndatrash_df, month == "July", year == "2021"), cigarette_butts))` in July of 2021.
 
 
 
