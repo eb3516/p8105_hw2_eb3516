@@ -109,8 +109,8 @@ The new `wheel` variable distinguishes which Trash Wheel is which.
 
 We clean the Trash Wheel Collection `Mr. Trash Wheel` data, which provides information on the dumpster number, date, amount of litter, and litter type. There are some rows which contain notes/figures and some columns which contain notes, which will be omitted. Rows which do not include dumpster-specific data will also be omitted.
 
-#Specify sheet in file & omit non-data entries.
-```{r}
+Specify sheet in file & omit non-data entries:
+```{r clean_mrtrashwheel}
   mrtrash_df = 
     read_excel("202309 Trash Wheel Collection Data.xlsx",
                sheet="Mr. Trash Wheel",
