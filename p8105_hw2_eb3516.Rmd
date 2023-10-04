@@ -101,10 +101,21 @@ The new `homes_powered` variable will implement a calculation to list approx num
          name="Mr. Trash Wheel")
 ```
 
-#We repeat the process for Professor Trash Wheel and Gwynnda.
+We repeat the process for Professor Trash Wheel and Gwynnda.
+```{r import_omit_proftrashwheel}
+  proftrash_df = 
+    read_excel("202309 Trash Wheel Collection Data.xlsx",
+               sheet="Professor Trash Wheel",
+               range="A2:L108")
+```
 
-#Prof Trash wheel - specify sheet, omit non-data entries
-#Prof Trash wheel - create new variable
+``` {r clean_newvar_proftrashwheel}
+  janitor::clean_names(proftrash_df) |>
+  mutate(kilowatt=weight_tons*500,
+         homes_powered=kilowatt/30,
+         name="Professor Trash Wheel")
+```
+
 
 #Gwynnda - specify sheet, omit non-data entries
 #Gwynnda - create new variable
