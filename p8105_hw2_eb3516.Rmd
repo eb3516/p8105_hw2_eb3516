@@ -146,8 +146,26 @@ Let's talk about the Trash Wheel datasets of the 3 combined trash wheels. The `c
 Based on the available data, we can see that Professor Trash Wheel collected a total of `r sum(pull(proftrash_df, weight_tons))`. We can also see that Gwynnda collected a total of `r sum(pull(filter(gwynndatrash_df, month == "July", year == "2021"), cigarette_butts))` in July of 2021.
 
 
+# Problem 3
+
+We clean the MCI data collection `baseline` data, which provides information on the age, sex, education, and APOE4 carrier status. There are some rows (participants) who do not have a MCI age of onset value, and those will be omitted.
 
 
+#Import, clean & tidy the dataset of baseline demos.
+#Ensure sex & APOE4 carrier status are appropriate (not numeric)
+#Remove any participants who do not meet stated conclusion criteria (no MCI at baseline)
+#Discuss important steps in the import process & relevant features of the dataset
+#How many participants were recruited & of these how many develop MCI?
+#What is the average baseline age?
+#What proportion of women in the study are APOE4 carriers?
+
+#Import, clean & tidy dataset of longitudinally observed biomarker values
+#Comment on the steps on the import process & features of the datset
+
+#Check whether some participants appear in only baseline or amyloid datsets and comment on findings
+#Combine demos & biomarker datsets so only participnats who appear in both are retained
+#Briefly describe the resulting dataset
+#Export results as a CSV to data directory
 
 
 
