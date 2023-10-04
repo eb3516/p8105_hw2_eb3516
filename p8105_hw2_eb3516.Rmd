@@ -12,6 +12,11 @@ Setup code to load libraries & open dataset.
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
+```{r load_libraries}
+library(tidyverse)
+library(readxl)
+```
+
 
 
 
