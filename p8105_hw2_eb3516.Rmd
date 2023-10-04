@@ -80,7 +80,29 @@ Notice that there are some `NA` values in the `close` and `unemployment` variabl
 
 Let's talk about the 538 datasets. The `pols` data has `r nrow(pols)` observations and `r ncol(pols)` variables and tells us about the party affiliation distribution (democrat or republican) for governors and senators for a given year from years `r pols |> pull(year) |> min()` to `r pols |> pull(year) |> max()`. It also tells us whether the sitting president was a democrat or republican. The `snp` data has `r nrow(snp)` observations and `r ncol(snp)` variables, ranging from years `r snp |> pull(year) |> min()` to `r snp |> pull(year) |> max()`. The `unemployment` data has `r nrow(unemployment)` observations and `r ncol(unemployment)` variables ranging from years `r unemployment |> pull(year) |> min()` to `r unemployment |> pull(year) |> max()`. In Januarys in or after 1975 in which a democrat was president, the **average unemployment rate was `r filter(data_538, month == "January", year >= 1975, president == "dem") |> pull(unemployment) |> mean() |> round(2)`**.  The average unemployment rate over the same time period in which a republican was president was `r filter(data_538, month == "January", year >= 1975, president == "gop") |> pull(unemployment) |> mean() |> round(2)`.
 
+#Problem 2
 
+We clean the Trash Wheel Collection `Mr. Trash Wheel` data, which provides information on the dumpster number, date, amount of litter, and litter type. There are some rows which contain notes/figures and some columns which contain notes, which will be omitted. Rows which do not include dumpster-specific data will also be omitted.
+
+#Specify sheet in file & omit non-data entries.
+
+The new `homes-powered` variable will implement a calculation to list approx number of homes powered. 
+
+#Create new variable to calculate homes powered.
+
+We repeat the process for Professor Trash Wheel and Gwynnda.
+
+#Prof Trash wheel - specify sheet, omit non-data entries
+#Prof Trash wheel - create new variable
+
+#Gwynnda - specify sheet, omit non-data entries
+#Gwynnda - create new variable
+
+The new `wheel` variable distinguishes which Trash Wheel is which.
+
+#Create new variable wheel to associate data to the currect wheel.
+
+#Write an in-line paragraph about the data. Note # observations in resulting dataset, give examples of key variables. For available data, what was the total weight of trash collected by Prof Trash Wheel? What was the total number of cig butts collected by Gwynnda in July 2021?
 
 
 
