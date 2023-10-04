@@ -85,19 +85,23 @@ Let's talk about the 538 datasets. The `pols` data has `r nrow(pols)` observatio
 
 We clean the Trash Wheel Collection `Mr. Trash Wheel` data, which provides information on the dumpster number, date, amount of litter, and litter type. There are some rows which contain notes/figures and some columns which contain notes, which will be omitted. Rows which do not include dumpster-specific data will also be omitted.
 
-Specify sheet in file & omit non-data entries:
-```{r clean_mrtrashwheel}
+```{r import_omit_mrtrashwheel}
   mrtrash_df = 
     read_excel("202309 Trash Wheel Collection Data.xlsx",
                sheet="Mr. Trash Wheel",
                range="A2:M586")
 ```
 
-The new `homes-powered` variable will implement a calculation to list approx number of homes powered.
+The new `homes_powered` variable will implement a calculation to list approx number of homes powered.
 
-#Create new variable to calculate homes powered.
+``` {r clean_newvar_mrtrashwheel}
+  janitor::clean_names(mrtrash_df) |>
+  mutate(kilowatt=weight_tons*500,
+         homes_powered=kilowatt/30,
+         name="Mr. Trash Wheel")
+```
 
-We repeat the process for Professor Trash Wheel and Gwynnda.
+#We repeat the process for Professor Trash Wheel and Gwynnda.
 
 #Prof Trash wheel - specify sheet, omit non-data entries
 #Prof Trash wheel - create new variable
