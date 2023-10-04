@@ -17,6 +17,51 @@ library(tidyverse)
 library(readxl)
 ```
 
+#Problem 1
+
+We clean the 538 `pols` data, which provides information on the number of national politicians who are democratic or republican at any given time. There are some values for which `prez_gop` is `2` -- these are months in which Ford became president following Nixon's resignation. In the new `president` variable created as part of our data cleaning, we code these as `gop` (same values as when `prez_gop` is `1`).
+
+```{r clean_538_pols}
+month_df =
+  tibble(
+    month_num = 1:12,
+    month_abb = month.abb,
+    month = month.name
+  )
+
+pols = 
+  read_csv("./fivethirtyeight_datasets/pols-month.csv") |>
+  separate(mon, into = c("year", "month_num", "day"), convert = TRUE) |>
+  mutate(
+    president = recode(prez_gop, "0" = "dem", "1" = "gop", "2" = "gop")) |>
+  left_join(x = _, y = month_df) |> 
+  select(year, month, everything(), -day, -starts_with("prez")) 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
