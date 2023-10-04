@@ -150,6 +150,13 @@ Based on the available data, we can see that Professor Trash Wheel collected a t
 
 We clean the MCI data collection `baseline` data, which provides information on the age, sex, education, and APOE4 carrier status. There are some rows (participants) who do not have a MCI age of onset value, and those will be omitted.
 
+```{r import_clean_baseline}
+  baseline_df=read.csv("./data_mci/MCI_baseline.csv")|>
+    janitor::clean_names()
+```
+
+
+
 
 #Import, clean & tidy the dataset of baseline demos.
 #Ensure sex & APOE4 carrier status are appropriate (not numeric)
