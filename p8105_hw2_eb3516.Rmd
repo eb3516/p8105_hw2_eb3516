@@ -186,7 +186,7 @@ There were `r nrow(baseline_df)` participants recruited. We now omit those who h
   filter(age_at_onset<current_age)
 ```
 
-Of those recruited, `r nrow(baseline_df)` developed MCI. The average baseline age is `r round(mean(pull(baseline_df, current_age)))`. Of the women in the study, r round(nrow(filter(baseline_df, sex=="Female", apoe4=="Carrier"))/nrow(filter(baseline_df, sex=="Female")) are APOE4 carriers.
+The average baseline age is `r round(mean(pull(baseline_df, current_age)))`. Of the women in the study, r round(nrow(filter(baseline_df, sex=="Female", apoe4=="Carrier"))/nrow(filter(baseline_df, sex=="Female")) are APOE4 carriers.
 
 We will do the same thing with the `amyloid` data.
 
