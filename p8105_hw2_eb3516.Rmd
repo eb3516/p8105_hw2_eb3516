@@ -78,8 +78,7 @@ str(data_538)
 
 Notice that there are some `NA` values in the `close` and `unemployment` variables, which indicate that the value of these variables is missing at those locations.
 
-Let's talk about the 538 datasets. The `pols` data has `r nrow(pols)` observations and `r ncol(pols)` variables and tells us about the party affiliation distribution (democrat or republican) for governors and senators for a given year from years `r pols |> pull(year) |> min()` to `r pols |> pull(year) |> max()`. It also tells us whether the sitting president was a democrat or republican. The `snp` data has `r nrow(snp)` observations and `r ncol(snp)` variables, ranging from years `r snp |> pull(year) |> min()` to `r snp |> pull(year) |> max()`. The `unemployment` data has `r nrow(unemployment)` observations and `r ncol(unemployment)` variables ranging from years `r unemployment |> pull(year) |> min()` to `r unemployment |> pull(year) |> max()`. In Januarys in or after 1975 in which a democrat was president, the **average unemployment rate was `r filter(data_538, month == "January", year >= 1975, president == "dem") |> pull(unemployment) |> mean() |> round(2)`**.  The average unemployment rate over the same time period in which a republican was president was `r filter(data_538, month == "January", year >= 1975, president == "gop") |> pull(unemployment) |> mean() |> round(2)`.
-
+Let's talk about the 538 datasets. The `pols` data has `r nrow(pols)` observations and `r ncol(pols)` variables and tells us about the party affiliation distribution (democrat or republican) for governors and senators for a given year from years `r pols |> pull(year) |> min()` to `r pols |> pull(year) |> max()`. It also tells us whether the sitting president was a democrat or republican. The `snp` data has `r nrow(snp)` observations and `r ncol(snp)` variables, ranging from years `r snp |> pull(year) |> min()` to `r snp |> pull(year) |> max()`. The `unemployment` data has `r nrow(unemployment)` observations and `r ncol(unemployment)` variables ranging from years `r unemployment |> pull(year) |> min()` to `r unemployment |> pull(year) |> max()`. In Januarys in or after 1975 in which a democrat was president, the **average unemployment rate was `r filter(data_538, month == "January", year >= 1975, president == "dem") |> pull(unemployment) |> mean() |> round(2)`**. The average unemployment rate over the same time period in which a republican was president was `r filter(data_538, month == "January", year >= 1975, president == "gop") |> pull(unemployment) |> mean() |> round(2)`.
 
 # Problem 2
 
@@ -94,7 +93,7 @@ We clean the Trash Wheel Collection `Mr. Trash Wheel` data, which provides infor
 
 The new `homes_powered` variable will implement a calculation to list approx number of homes powered.
 
-``` {r clean_newvar_mrtrashwheel}
+```{r clean_newvar_mrtrashwheel}
   mrtrash_df=
   janitor::clean_names(mrtrash_df) |>
   mutate(kilowatt=weight_tons*500,
@@ -104,6 +103,7 @@ The new `homes_powered` variable will implement a calculation to list approx num
 ```
 
 We repeat the process for Professor Trash Wheel and Gwynnda Trash Wheel.
+
 ```{r import_omit_proftrashwheel}
   proftrash_df = 
     read_excel("202309 Trash Wheel Collection Data.xlsx",
@@ -111,7 +111,7 @@ We repeat the process for Professor Trash Wheel and Gwynnda Trash Wheel.
                range="A2:L108")
 ```
 
-``` {r clean_newvar_proftrashwheel}
+```{r clean_newvar_proftrashwheel}
   proftrash_df=
   janitor::clean_names(proftrash_df) |>
   mutate(kilowatt=weight_tons*500,
@@ -127,7 +127,7 @@ We repeat the process for Professor Trash Wheel and Gwynnda Trash Wheel.
                range="A2:K157")
 ```
 
-``` {r clean_newvar_gwynndatrashwheel}
+```{r clean_newvar_gwynndatrashwheel}
   gwynndatrash_df=
   janitor::clean_names(gwynndatrash_df) |>
   mutate(kilowatt=weight_tons*500,
@@ -137,6 +137,7 @@ We repeat the process for Professor Trash Wheel and Gwynnda Trash Wheel.
 ```
 
 Now we merge the three datasets.
+
 ```{r combine}
   combined_wheels_df=bind_rows(mrtrash_df, proftrash_df, gwynndatrash_df)
 ```
@@ -145,17 +146,16 @@ Let's talk about the Trash Wheel datasets of the 3 combined trash wheels. The `c
 
 Based on the available data, we can see that Professor Trash Wheel collected a total of `r sum(pull(proftrash_df, weight_tons))`. We can also see that Gwynnda collected a total of `r sum(pull(filter(gwynndatrash_df, month == "July", year == "2021"), cigarette_butts))` in July of 2021.
 
-
 # Problem 3
 
-We clean the MCI data collection `baseline` data, which provides information on the age, sex, education, and APOE4 carrier status. There are some rows (participants) who do not have a MCI age of onset value, and those will be omitted.
+We clean the MCI data collection `baseline` data, which provides information on the age, sex, education, and APOE4 carrier status. There are some rows (participants) who do have an age at MCI value less than baseline age, who will be ommitted.
 
 ```{r import_clean_baseline}
   baseline_df=read.csv("./data_mci/MCI_baseline.csv", skip=1)|>
     janitor::clean_names()
 ```
 
-``` {r clean_sex_baseline}
+```{r clean_sex_baseline}
   baseline_df= baseline_df |>
   mutate(
     sex=as.double(sex),
@@ -164,7 +164,7 @@ We clean the MCI data collection `baseline` data, which provides information on 
                   0 ~ "Female"))
 ```
 
-``` {r clean_apoe4_baseline}
+```{r clean_apoe4_baseline}
   baseline_df= baseline_df |>
   mutate(
     apoe4=as.double(apoe4),
@@ -173,22 +173,20 @@ We clean the MCI data collection `baseline` data, which provides information on 
                     0 ~ "Non-Carrier"))
 ```
 
-``` {r clean_idbaseline}
+```{r clean_idbaseline}
   baseline_df= baseline_df |>
   mutate(
     id=as.double(id))
 ```
 
-There were `r nrow(baseline_df)` participants recruited. We now omit those who do not have an age of onset for MCI.
+There were `r nrow(baseline_df)` participants recruited. We now omit those who had a MCI prior to current.
 
 ```{r omit_baseline}
   baseline_df= baseline_df |>
-  filter(age_at_onset!=".")
+  filter(age_at_onset<current_age)
 ```
 
-Of those recruited, `r nrow(baseline_df)` developed MCI.
-The average baseline age is 69.81.
-0.65 of the women in the study are APOE4 carriers.
+Of those recruited, `r nrow(baseline_df)` developed MCI. The average baseline age is `r round(mean(pull(baseline_df, current_age)))`. Of the women in the study, r round(nrow(filter(baseline_df, sex=="Female", apoe4=="Carrier"))/nrow(filter(baseline_df, sex=="Female")) are APOE4 carriers.
 
 We will do the same thing with the `amyloid` data.
 
@@ -199,7 +197,7 @@ We will do the same thing with the `amyloid` data.
 
 The total observations in the `amyloid` dataset is `r nrow(amyloid_df)`. We now ommit data with missing values.
 
-``` {r clean_amyloid}
+```{r clean_amyloid}
   amyloid_df= amyloid_df |>
   drop_na() |>
   rename(id=study_id)
@@ -209,51 +207,27 @@ There are now `r nrow(amyloid_df)` observations.
 
 Let's compare the two datasets.
 
-``` {r anti_combine}
+```{r anti_combine}
 anti_combine1=anti_join(baseline_df, amyloid_df, by ="id")
 anti_combine2=anti_join(amyloid_df, baseline_df, by ="id")
 ```
 
 There are `r nrow(anti_combine1)` participants who only appear in the baseline dataset. There are `r nrow(anti_combine2)` participants who only appear in the amyloid dataset.
 
-Now let's merge the two datasets.
+Now let's merge the two datasets so that only participants who appear in both are retained.
 
+```{r merge}
+merged_df= inner_join(baseline_df, amyloid_df, by="id")
+```
 
+The final merged dataset contains data for `r nrow(merged_df)` participants.
 
-#Combine demos & biomarker datsets so only participnats who appear in both are retained
-#Briefly describe the resulting dataset
-#Export results as a CSV to data directory
+The average baseline age is `r round(mean(pull(merged_df, current_age)))`.
 
+Lastly, we will export the `merged` dataset.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r export, message=FALSE}
+write.csv(merged_df, "data_mci/merged_df.csv",)
+```
 
 
