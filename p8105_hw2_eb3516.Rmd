@@ -202,10 +202,23 @@ The total observations in the `amyloid` dataset is `r nrow(amyloid_df)`. We now 
 ``` {r clean_amyloid}
   amyloid_df= amyloid_df |>
   drop_na() |>
-  rename(ID=study_id)
+  rename(id=study_id)
 ```
 
 There are now `r nrow(amyloid_df)` observations.
+
+Let's compare the two datasets.
+
+``` {r anti_combine}
+anti_combine1=anti_join(baseline_df, amyloid_df, by ="id")
+anti_combine2=anti_join(amyloid_df, baseline_df, by ="id")
+```
+
+There are `r nrow(anti_combine1)` participants who only appear in the baseline dataset. There are `r nrow(anti_combine2)` participants who only appear in the amyloid dataset.
+
+Now let's merge the two datasets.
+
+
 
 #Combine demos & biomarker datsets so only participnats who appear in both are retained
 #Briefly describe the resulting dataset
